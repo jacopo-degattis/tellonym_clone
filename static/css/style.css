@@ -1,0 +1,71 @@
+.container {
+	margin: auto;
+	background-color: white;
+	height: 100vh;
+	max-width: 1000px !important;
+}
+
+#user-pic {
+	border-radius: 50%;
+}
+
+.card form {
+	margin: auto;
+}
+
+.card {
+	border: None !important;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23) !important;
+}
+
+.btn.btn-primary {
+	background-color: rgb(255, 1, 123) !important;
+	border-color: rgb(255, 1, 123) !important;
+}
+
+.card {
+	text-align: center;
+	/* margin: auto; */
+}
+
+.card-title {
+	margin-bottom: 5px;
+}
+
+.card p {
+	margin: 0;
+}
+
+.card .form-group {
+	margin-top: 20px;
+}
+
+body {
+	margin: 0;
+}
+
+
+#user-img img {
+	margin-bottom: 10px;
+	border-radius: 50%;
+}
+
+#user-numbers {
+	max-width: 300px;
+	margin: auto;
+}
+
+#number-followers {
+	float:left;
+	width: 25%;
+}
+
+#number-tells {
+	float: left;
+	width: 50%;
+}
+
+#number-following {
+	float: right;
+	width: 25%;
+}

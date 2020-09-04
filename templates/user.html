@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{value['username']}}'s Profile</title>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link href="https://cdn.jsdelivr.net/gh/halfmoonui/halfmoon@1.0.4/css/halfmoon.min.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="container">
+		
+		<div class="card">
+			<h2 class="card-title">
+				<img id="user-pic" width="100" height="100" src="{{value['user_pic']}}">
+			</h2>
+			<p>
+				{{value['status']}}
+			</p>
+			<p>
+				<small>@{{value['username']}}</small>
+			</p>
+			<form action="..." method="..." class="w-400 mw-full">
+				<div class="form-group">
+					<!-- <label for="description">Description</label> -->
+					<textarea class="form-control" id="description" placeholder="Send a Tell"></textarea>
+				</div>
+				<div class="text-right">
+					<input class="btn btn-primary" type="submit" value="Send">
+				</div>
+			</form>
+		</div>
+
+		{% for tell in value["tells_list"] %}
+			<div class="card">
+				<h2 class="card-title">
+					{{value['username']}}
+					<!-- <img id="user-pic" width="100" height="100" src="{{value['user_pic']}}"> -->
+				</h2>
+				<p>{{tell['question']}}</p>
+				<p>{{tell['answer']}}</p>
+				<p>
+					{{tell['sender']}}
+				</p>
+			</div>
+		{% endfor %}
+
+		<!-- <div class="user-info">
+			<div id="user-img">
+				<img width="100" height="100" src="{{value['user_pic']}}">
+			</div>
+			
+			<div id="user-username">
+				<b>{{value['status']}}</b><br>
+				<small>@{{value['username']}}</small>
+			</div>
+			
+			<div id="user-numbers">
+				<div id="number-followers">
+					{{value['followers']}}
+				</div>
+				<div id="number-tells">
+					{{value['tells']}}
+				</div>
+				<div id="number-following">
+					{{value['following']}}
+				</div>
+			</div>
+			
+			<div id="user-tells">
+				
+			</div>
+
+		</div> -->
+
+	</div>
+	<script src="https://cdn.jsdelivr.net/gh/halfmoonui/halfmoon@1.0.4/js/halfmoon.min.js"></script>
+</body>
+</html>
