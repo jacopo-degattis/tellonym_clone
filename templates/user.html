@@ -8,6 +8,22 @@
 <body>
 	<div class="container">
 		
+		<nav class="navbar navbar-fixed-bottom">
+			<!-- Navbar content with the dropup menu -->
+			<div class="navbar-content">
+				<button class="btn" data-toggle="dropdown" type="button" id="navbar-fixed-bottom-dropdown-toggle">
+				  Home
+				  <i class="fa fa-angle-up" aria-hidden="true"></i>
+				</button>
+			</div>
+			<a href="#" class="navbar-brand ml-auto"> <!-- ml-auto = margin-left: auto -->
+			  <img src="https://theme.zdassets.com/theme_assets/9138715/b4664e74bb6b47c922ae38657f762f5f82a7bb9d.png" alt="">
+			</a>
+			<span class="navbar-text ml-auto"> <!-- ml-auto = margin-left: auto -->
+			  &copy; Jack&Co
+			</span>
+		  </nav>
+
 		<div class="card">
 			<h2 class="card-title">
 				<img id="user-pic" width="100" height="100" src="{{value['user_pic']}}">
@@ -18,10 +34,12 @@
 			<p>
 				<small>@{{value['username']}}</small>
 			</p>
-			<form action="..." method="..." class="w-400 mw-full">
+			<form action="/api/tell/create" method="POST" class="w-400 mw-full">
 				<div class="form-group">
 					<!-- <label for="description">Description</label> -->
-					<textarea class="form-control" id="description" placeholder="Send a Tell"></textarea>
+					<input type="hidden" name="target_user" value="{{value['username']}}" />
+					<input type="hidden" name="post_user" value="{{value['curr_user']}}" />
+					<textarea name="tell_answer" class="form-control" id="description" placeholder="Send a Tell"></textarea>
 				</div>
 				<div class="text-right">
 					<input class="btn btn-primary" type="submit" value="Send">
@@ -30,15 +48,19 @@
 		</div>
 
 		{% for tell in value["tells_list"] %}
-			<div class="card">
+			<div class="card" id="tell-card">
 				<h2 class="card-title">
-					{{value['username']}}
-					<!-- <img id="user-pic" width="100" height="100" src="{{value['user_pic']}}"> -->
+					<img id="user-pic" width="35" height="35" src="{{value['user_pic']}}">
+					<p>
+						<small>{{value['username']}}</small>
+						<br>
+						<small>4 hour ago</small>
+					</p>
 				</h2>
-				<p>{{tell['question']}}</p>
+				<p><b><div class="vertical"></div>{{tell['question']}}</b></p>
 				<p>{{tell['answer']}}</p>
 				<p>
-					{{tell['sender']}}
+					Sent by <small>@{{tell['sender']}}</small>
 				</p>
 			</div>
 		{% endfor %}

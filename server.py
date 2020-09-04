@@ -1,8 +1,12 @@
+import os
+import json
 import mysql.connector
 from config import config
-from flask import Flask, render_template, jsonify, redirect, request
+from flask import Flask, render_template, jsonify, redirect, request, session
 
 app = Flask(__name__)
+
+app.secret_key = os.urandom(10)
 
 # BACKEND
 
@@ -52,8 +56,12 @@ def create():
 		status = create_tell(tell_user_poster_id, tell_user_target_id, tell_answer)
 		if status == 0:
 			response = {'status_code': 200, 'message': 'success'}
+			# Spot the confirmation to the user
+			return redirect(f'/user/{tell_user_target}')
 		elif status == -1:
 			response = {'status_code': 400, 'message': 'an error occurred'}
+			# Spot the error to the user
+			return redirect(f'/user/{tell_user_target}')
 	
 	return jsonify(response)
 
@@ -88,6 +96,21 @@ def serialize_results(results):
 			}
 		)
 	return result
+
+@app.route('/api/login', methods=['POST'])
+def login():
+	username = request.form['username']
+	password = request.form['password']
+	login = check_login(username, password)
+	if login == 0:
+		response = {'status_code': 200, 'message': 'login success'}
+		session['curr_user'] = username
+		session['loggedin'] = True
+		return redirect('/user/__vndefined') # To change in home or own profile
+	elif login == -1:
+		response = {'status_code': 400, 'message': 'login error'}
+		return redirect('/')
+	return jsonify(response)
 
 def get_user_tells_from_id(user_id):
 	cursor = db.cursor()
@@ -150,6 +173,9 @@ def get_user_tells_from_username(username):
 	query = f'SELECT Tell.question, Tell.answer, Tell.id_utente_post FROM Tell WHERE Tell.id_utente_recv={user_id}'
 	cursor.execute(query)
 	results = cursor.fetchall()
+	print('sos')
+	print(json.dumps(results))
+	#print(results)
 	for result in results:
 		tells.append(
 			{
@@ -160,7 +186,7 @@ def get_user_tells_from_username(username):
 		)
 	return tells
 
-@app.route('/<username>', methods=['GET'])
+@app.route('/user/<username>', methods=['GET'])
 def user_profile(username):
 	user_data = {}
 	user_data = get_user_data_from_username(username)
@@ -171,4 +197,4 @@ def user_profile(username):
 # END FRONTEND
 
 # Add main function execution
-app.run(debug=True)
+app.run('0.0.0.0',debug=True)

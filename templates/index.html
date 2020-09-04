@@ -2,8 +2,52 @@
 <html>
 <head>
 	<title>Home Page</title>
+	<link href="https://cdn.jsdelivr.net/gh/halfmoonui/halfmoon@1.0.4/css/halfmoon.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
+	<style>
+		.form-group input {
+			margin-bottom: 20px;
+		}
+	</style>
 
+	<div class="container">
+		<nav class="navbar navbar-fixed-bottom">
+			<!-- Navbar content with the dropup menu -->
+			<div class="navbar-content">
+				<button class="btn" data-toggle="dropdown" type="button" id="navbar-fixed-bottom-dropdown-toggle">
+				Home
+				<i class="fa fa-angle-up" aria-hidden="true"></i>
+				</button>
+			</div>
+			<a href="#" class="navbar-brand ml-auto"> <!-- ml-auto = margin-left: auto -->
+			<img src="https://theme.zdassets.com/theme_assets/9138715/b4664e74bb6b47c922ae38657f762f5f82a7bb9d.png" alt="">
+			</a>
+			<span class="navbar-text ml-auto"> <!-- ml-auto = margin-left: auto -->
+			&copy; Jack&Co
+			</span>
+		</nav>
+
+		<div class="card">
+			<h2 class="card-title">
+			  Login
+			</h2>
+			<form action="/api/login" method="POST" class="w-400 mw-full">
+				<div class="form-group">
+					<!-- <label for="description">Description</label> -->
+					<input name="username" type="text" class="form-control" placeholder="Username">
+					<input name="password" type="password" class="form-control" placeholder="Password">
+				</div>
+				<div class="text-right">
+					<input class="btn btn-primary" type="submit" value="Login">
+				</div>
+			</form>
+		</div>
+
+		{% if session['loggedin'] %}
+			<p>You're already logged in</p>
+		{% endif %}
+	</div>
 </body>
 </html>

@@ -5,12 +5,34 @@
 	max-width: 1000px !important;
 }
 
+#tell-card {
+	text-align: left;
+}
+
+.vertical { 
+	float: left;
+	border-left: 5px solid gray; 
+	height: 20px; 
+	margin-right: 10px;
+} 
+
+#tell-card #user-pic {
+	float: left;
+	margin-right: 1rem;
+}
+
 #user-pic {
 	border-radius: 50%;
 }
 
 .card form {
 	margin: auto;
+}
+
+.card form:focus {
+	outline: none !important;
+    border: rgb(255, 1, 123) !important;
+	/* outline-color: rgb(255, 1, 123) !important; */
 }
 
 .card {
