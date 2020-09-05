@@ -65,6 +65,10 @@ def create():
 	
 	return jsonify(response)
 
+@app.route('/api/questions', methods=['POST'])
+def get_questions():
+	return ''
+
 def check_login(username, password):
 	cursor = db.cursor()
 	query = f'SELECT User.id_utente FROM User WHERE User.Username="{username}" AND User.password="{password}"'
@@ -112,30 +116,45 @@ def login():
 		return redirect('/')
 	return jsonify(response)
 
-def get_user_tells_from_id(user_id):
+def get_user_tells_from_id(user_id, answered):
 	cursor = db.cursor()
-	query = f'SELECT * FROM Tell WHERE Tell.id_utente_recv={user_id} AND Tell.answered==NULL'
+	# 1 if answered else 0
+	query = f'SELECT * FROM Tell WHERE Tell.id_utente_recv={user_id} AND Tell.answered={answered}'
+	print(query)
 	cursor.execute(query)
 	results = cursor.fetchall()
 	serialized_tells = serialize_results(results)
 	return serialized_tells
 
-# Get all the unanswered tells of a single user
-@app.route('/api/tell/<user_id>', methods=['POST'])
-def get_user_tells(user_id):
-	response = {}
+# Here you can find all the questions that other users have made to u
+@app.route('/me/questions', methods=['GET'])
+def myquestions():
+	if session['loggedin']:
+		curr_user_id = get_user_id_from_username(session['curr_user'])
+		questions = get_user_tells_from_id(curr_user_id, 0)
+		print(questions)
+		return render_template('questions.html', value=questions)
+	elif session['loggedin'] == False:
+		return render_template('index.html')
+	return render_template('index.html')
+
+# # Get all the unanswered tells of a single user
+# @app.route('/api/tell/<user_id>', methods=['POST'])
+# def get_user_tells(user_id):
+# 	response = {}
 	
-	# You must pass user credentials to require other user's tells
-	username = request.form['username']
-	password = request.form['password']
-	login = check_login(username, password)
-	if login == 0:
-		tells = get_user_tells_from_id(user_id)
-		response = {'status_code': 200, 'response': tells}
-	elif login == -1:
-		response = {'status_code': 400, 'message': 'an error occurred'}
+# 	# You must pass user credentials to require other user's tells
+# 	username = request.form['username']
+# 	password = request.form['password']
+# 	answered = request.form['answered']
+# 	login = check_login(username, password)
+# 	if login == 0:
+# 		tells = get_user_tells_from_id(user_id, answered)
+# 		response = {'status_code': 200, 'response': tells}
+# 	elif login == -1:
+# 		response = {'status_code': 400, 'message': 'an error occurred'}
 	
-	return jsonify(response)
+# 	return jsonify(response)
 
 # END BACKEND
 
@@ -143,6 +162,10 @@ def get_user_tells(user_id):
 
 @app.route('/', methods=['GET'])
 def home():
+	if 'loggedin' in session.keys() and session['loggedin']:
+		return redirect('/me/questions')
+	else:
+		return render_template('index.html')
 	return render_template('index.html')
 
 def serialize_user(user_data):

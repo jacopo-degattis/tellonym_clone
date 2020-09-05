@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Questions</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link href="https://cdn.jsdelivr.net/gh/halfmoonui/halfmoon@1.0.4/css/halfmoon.min.css" rel="stylesheet" />
+</head>
+<body>
+    <style>
+        #question-card {
+            text-align: left;
+        }
+        a {
+            color: rgb(255, 1, 123);
+        }
+    </style>
+
+    <div class="container">
+        <nav class="navbar navbar-fixed-bottom">
+			<!-- Navbar content with the dropup menu -->
+			<div class="navbar-content">
+				<button class="btn" data-toggle="dropdown" type="button" id="navbar-fixed-bottom-dropdown-toggle">
+				  Home
+				  <i class="fa fa-angle-up" aria-hidden="true"></i>
+				</button>
+			</div>
+			<a href="#" class="navbar-brand ml-auto"> <!-- ml-auto = margin-left: auto -->
+			  <img src="https://theme.zdassets.com/theme_assets/9138715/b4664e74bb6b47c922ae38657f762f5f82a7bb9d.png" alt="">
+			</a>
+			<span class="navbar-text ml-auto"> <!-- ml-auto = margin-left: auto -->
+			  &copy; Jack&Co
+			</span>
+        </nav>
+
+        <div class="card">
+            <h2 class="card-title">
+                <b><small>Share Your Link</small></b>
+            <p>
+                <a href="http://localhost:5000/user/{{session['curr_user']}}">
+                    http://localhost:5000/user/{{session['curr_user']}}
+                </a>
+            </p>
+        </div>
+
+        {% for question in value %}
+            <div class="card" id="question-card">
+                <h2 class="card-title">
+                    {{question['question']}}
+                </h2>
+                <p>
+                    4 hour ago
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
